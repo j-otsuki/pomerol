@@ -148,7 +148,7 @@ public:
      * \param[in] ResonantTerms A list of Resonant Terms.
      * \param[in] Permutation A permutation of input Matsubara frequencies
      */
-    void fill(const std::list<TwoParticleGFPart::NonResonantTerm>& NonResonantTerms, const std::list<TwoParticleGFPart::ResonantTerm>& ResonantTerms, Permutation3 Permutation);
+    void fill(const std::deque<TwoParticleGFPart::NonResonantTerm>& NonResonantTerms, const std::deque<TwoParticleGFPart::ResonantTerm>& ResonantTerms, Permutation3 Permutation);
 
     /** Operator+= : adds to a current MatsubaraContainer another one
      * \param[in] rhs Right hand side of the equation Matsubara Container to add.

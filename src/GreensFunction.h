@@ -71,7 +71,7 @@ class GreensFunction : public Thermal, public ComputableObject {
     /** A list of pointers to parts (every part corresponds to a part of the annihilation operator
      * and a part of the creation operator).
      */
-    std::list<GreensFunctionPart*> parts;
+    std::deque<GreensFunctionPart*> parts;
 
 public:
      /** Constructor.
@@ -127,7 +127,7 @@ inline ComplexType GreensFunction::operator()(ComplexType z) const {
     if(Vanishing) return 0;
     else {
         ComplexType Value = 0;
-        for(std::list<GreensFunctionPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++)
+        for(std::deque<GreensFunctionPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++)
             Value += (**iter)(z);
         return Value;
     };
@@ -137,7 +137,7 @@ inline ComplexType GreensFunction::of_tau(RealType tau) const {
     if(Vanishing) return 0;
     else {
         ComplexType Value = 0;
-        for(std::list<GreensFunctionPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++)
+        for(std::deque<GreensFunctionPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++)
             Value += (*iter)->of_tau(tau);
         return Value;
     };

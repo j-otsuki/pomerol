@@ -68,7 +68,7 @@ class GreensFunctionPart : public Thermal
     friend std::ostream& operator<< (std::ostream& out, const GreensFunctionPart::Term& T);
 
     /** A list of all terms. */
-    std::list<Term> Terms;
+    std::deque<Term> Terms;
 
     /** A matrix element with magnitude less than this value is treated as zero. */
     const RealType MatrixElementTolerance; // 1e-8;
@@ -108,7 +108,7 @@ public:
     * \param[in] Tolerance The tolerance for the terms cutoff.
     * \param[in] ResonantTerms The list of terms.
     */
-    void reduceTerms(const RealType Tolerance, std::list<Term>& Terms);
+    void reduceTerms(const RealType Tolerance, std::deque<Term>& Terms);
 
     /** A difference in energies with magnitude less than this value is treated as zero. */
     const RealType ReduceResonanceTolerance;
@@ -159,13 +159,13 @@ inline ComplexType GreensFunctionPart::operator()(long MatsubaraNumber) const {
 
 inline ComplexType GreensFunctionPart::operator()(ComplexType z) const {
     ComplexType G = 0; 
-    for(std::list<Term>::const_iterator pTerm = Terms.begin(); pTerm != Terms.end(); ++pTerm) G += (*pTerm)(z);
+    for(std::deque<Term>::const_iterator pTerm = Terms.begin(); pTerm != Terms.end(); ++pTerm) G += (*pTerm)(z);
     return G;
 }
 
 inline ComplexType GreensFunctionPart::of_tau(RealType tau) const {
     ComplexType G = 0; 
-    for(std::list<Term>::const_iterator pTerm = Terms.begin(); pTerm != Terms.end(); ++pTerm) G += pTerm->of_tau(tau,beta);
+    for(std::deque<Term>::const_iterator pTerm = Terms.begin(); pTerm != Terms.end(); ++pTerm) G += pTerm->of_tau(tau,beta);
     return G;
 }
 

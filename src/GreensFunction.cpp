@@ -39,13 +39,13 @@ GreensFunction::GreensFunction(const StatesClassification& S, const Hamiltonian&
 GreensFunction::GreensFunction(const GreensFunction& GF) :
     Thermal(GF.beta), ComputableObject(GF), S(GF.S), H(GF.H), C(GF.C), CX(GF.CX), DM(GF.DM), Vanishing(GF.Vanishing)
 {
-    for(std::list<GreensFunctionPart*>::const_iterator iter = GF.parts.begin(); iter != GF.parts.end(); iter++)
+    for(std::deque<GreensFunctionPart*>::const_iterator iter = GF.parts.begin(); iter != GF.parts.end(); iter++)
         parts.push_back(new GreensFunctionPart(**iter));
 }
 
 GreensFunction::~GreensFunction()
 {
-    for(std::list<GreensFunctionPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
+    for(std::deque<GreensFunctionPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
         delete *iter;
 }
 
@@ -95,7 +95,7 @@ void GreensFunction::compute()
     if(Status<Prepared) prepare();
 
     if(Status<Computed){
-        for(std::list<GreensFunctionPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
+        for(std::deque<GreensFunctionPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
             (*iter)->compute();
     }
     Status = Computed;

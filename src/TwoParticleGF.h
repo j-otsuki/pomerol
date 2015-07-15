@@ -74,7 +74,7 @@ class TwoParticleGF : public Thermal, public ComputableObject {
 
 public:
     /** A list of pointers to parts. */
-    std::vector<TwoParticleGFPart*> parts;
+    std::deque<TwoParticleGFPart*> parts;
 protected:
 
     /** A flag to determine whether this GF is identical to zero */
@@ -173,7 +173,7 @@ inline ComplexType TwoParticleGF::operator()(ComplexType z1, ComplexType z2, Com
         return 0.0;
     else {
         ComplexType Value = 0;
-        for(std::vector<TwoParticleGFPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++){
+        for(std::deque<TwoParticleGFPart*>::const_iterator iter = parts.begin(); iter != parts.end(); iter++){
         //if ((*iter)->getStatus() < (*iter)->Computed) { ERROR("TwoParticleGF must be computed to get value."); throw (exStatusMismatch()); };
             Value += (**iter)(z1,z2,z3);
             }

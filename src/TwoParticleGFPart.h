@@ -48,7 +48,7 @@ public:
 
     struct NonResonantTerm;
     struct ResonantTerm;
-   
+
 private:
 
     /** A reference to a part of the first operator. */
@@ -82,9 +82,9 @@ private:
     Permutation3 Permutation;
 
     /** A list of non-resonant terms. */
-    std::vector<NonResonantTerm> NonResonantTerms;
+    std::deque<NonResonantTerm> NonResonantTerms;
     /** A list of resonant terms. */
-    std::vector<ResonantTerm> ResonantTerms;
+    std::deque<ResonantTerm> ResonantTerms;
 
     /** Adds a multi-term that has the following form:
     * \f[
@@ -149,7 +149,7 @@ private:
     * \param[in] NonResonantTerms     The list of nonresonant terms.
     * \param[in] ResonantTerms        The list of resonant terms.
     */
-    void reduceTerms(const RealType NonResonantTolerance, const RealType ResonantTolerance, std::vector<NonResonantTerm>& NonResonantTerms, std::vector<ResonantTerm>& ResonantTerms);
+    void reduceTerms(const RealType NonResonantTolerance, const RealType ResonantTolerance, std::deque<NonResonantTerm>& NonResonantTerms, std::deque<ResonantTerm>& ResonantTerms);
 
 public:
     /** Constructor.
@@ -203,9 +203,9 @@ public:
     const Permutation3& getPermutation(void) const;
 
     /** Return the list of Resonant Terms */
-    const std::vector<NonResonantTerm>& getNonResonantTerms(void) const;
+    const std::deque<NonResonantTerm>& getNonResonantTerms(void) const;
     /** Return the list of NonResonantTerms */
-    const std::vector<ResonantTerm>& getResonantTerms(void) const;
+    const std::deque<ResonantTerm>& getResonantTerms(void) const;
 };
 
     /** A non-resonant term has the following form:

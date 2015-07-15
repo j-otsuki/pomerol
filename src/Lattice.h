@@ -43,12 +43,12 @@ public:
     /** This structure holds the information, about a written term in a formula - it's matrix element, corresponding site labels, spins and orbitals. */
     struct Term;
     /** A typedef for a list of pointers to the terms. */
-    typedef std::list<Term*> TermList;
+    typedef std::deque<Term*> TermList;
     /** A typedef for a map between the label and the corresponding site */
     typedef std::map<std::string, Site*> SiteMap;
     /** A storage for all the terms. Realized as a map between the order of the Lattice::Terms and the corresponding Lattice::TermList. */
     class TermStorage;
-    
+
     /** Add a Site to list of Sites 
      * \param[in] S A site to add.
      */
@@ -170,7 +170,7 @@ public:
     /** Get a List of Terms of a given order.
      * \param[in] N The required order of Terms. */
     const Lattice::TermList &getTerms (unsigned int N) const;
-    
+
     /** Returns largest the number of operators in all stored Terms */
     const unsigned int getMaxTermOrder() const;
     /** Empty constructor */

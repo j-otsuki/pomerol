@@ -34,6 +34,7 @@
 #include "IndexHamiltonian.h"
 #include "ComputableObject.h"
 #include <boost/functional/hash.hpp>
+#include <vector>
 #include <set>
 
 namespace Pomerol{
@@ -61,7 +62,7 @@ private:
     ParticleIndex IndexSize;
 
     /** A list of equivalent lattice sites permutations. */
-    std::list<IndexPermutation*> Permutations;
+    std::vector<IndexPermutation*> Permutations;
     /** Total amount of symmetries found. */
     int NSymmetries;
     /** A vector of operators that commute with the Hamiltonian. */

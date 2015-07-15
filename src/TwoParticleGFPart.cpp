@@ -149,7 +149,7 @@ void TwoParticleGFPart::compute()
     InnerQuantumState index3;
     InnerQuantumState index3Max = O2matrix.outerSize();
 
-    std::list<InnerQuantumState> Index4List;
+    std::deque<InnerQuantumState> Index4List;
 
     unsigned long ResonantTermsUnreducedSize=0;
     unsigned long NonResonantTermsUnreducedSize=0;
@@ -185,7 +185,7 @@ void TwoParticleGFPart::compute()
                     RealType E2 = Hpart2.getEigenValue(index2);
                     RealType weight2 = DMpart2.getWeight(index2);
 
-                    for (std::list<InnerQuantumState>::iterator pIndex4 = Index4List.begin(); pIndex4!=Index4List.end(); ++pIndex4) 
+                    for (std::deque<InnerQuantumState>::iterator pIndex4 = Index4List.begin(); pIndex4!=Index4List.end(); ++pIndex4) 
                     {
                         InnerQuantumState index4 = *pIndex4;
                         RealType E4 = Hpart4.getEigenValue(index4);                       
@@ -243,13 +243,13 @@ void TwoParticleGFPart::compute()
 }
 
 
-void TwoParticleGFPart::reduceTerms(const RealType NonResonantTolerance, const RealType ResonantTolerance, std::vector<NonResonantTerm> &NonResonantTerms, std::vector<ResonantTerm>& ResonantTerms)
+void TwoParticleGFPart::reduceTerms(const RealType NonResonantTolerance, const RealType ResonantTolerance, std::deque<NonResonantTerm> &NonResonantTerms, std::deque<ResonantTerm>& ResonantTerms)
 {
     #ifndef noReduction
     // Sieve reduction of the non-resonant terms
     //int i=0
-    for(std::vector<NonResonantTerm>::iterator it1 = NonResonantTerms.begin(); it1 != NonResonantTerms.end();){
-        std::vector<NonResonantTerm>::iterator it2 = it1;
+    for(std::deque<NonResonantTerm>::iterator it1 = NonResonantTerms.begin(); it1 != NonResonantTerms.end();){
+        std::deque<NonResonantTerm>::iterator it2 = it1;
     //    DEBUG(++i << "/" << NonResonantTerms.size());
         for(it2++; it2 != NonResonantTerms.end();){
             if(it1->isSimilarTo(*it2, ReduceResonanceTolerance)){
@@ -258,16 +258,16 @@ void TwoParticleGFPart::reduceTerms(const RealType NonResonantTolerance, const R
             }else
                 it2++;
         }
-        
+
         if(abs(it1->Coeff) < NonResonantTolerance)
             it1 = NonResonantTerms.erase(it1);
         else
             it1++;
     }
-    
+
     // Sieve reduction of the resonant terms
-    for(std::vector<ResonantTerm>::iterator it1 = ResonantTerms.begin(); it1 != ResonantTerms.end();){
-        std::vector<ResonantTerm>::iterator it2 = it1;
+    for(std::deque<ResonantTerm>::iterator it1 = ResonantTerms.begin(); it1 != ResonantTerms.end();){
+        std::deque<ResonantTerm>::iterator it2 = it1;
         for(it2++; it2 != ResonantTerms.end();){
             if(it1->isSimilarTo(*it2, ReduceResonanceTolerance)){
                 *it1 += *it2;
@@ -275,7 +275,7 @@ void TwoParticleGFPart::reduceTerms(const RealType NonResonantTolerance, const R
             }else
                 it2++;
         }
-        
+
         if(abs(it1->ResCoeff) + abs(it1->NonResCoeff) < ResonantTolerance)
             it1 = ResonantTerms.erase(it1);
         else
@@ -353,20 +353,20 @@ ComplexType TwoParticleGFPart::operator()(ComplexType z1, ComplexType z2, Comple
     z3 = Frequencies[Permutation.perm[2]];
 
     ComplexType Value = 0;
-    for(std::vector<NonResonantTerm>::const_iterator pTerm = NonResonantTerms.begin(); pTerm != NonResonantTerms.end(); ++pTerm)
+    for(std::deque<NonResonantTerm>::const_iterator pTerm = NonResonantTerms.begin(); pTerm != NonResonantTerms.end(); ++pTerm)
         Value += (*pTerm)(z1,z2,z3);
-    for(std::vector<ResonantTerm>::const_iterator pTerm = ResonantTerms.begin(); pTerm != ResonantTerms.end(); ++pTerm)
+    for(std::deque<ResonantTerm>::const_iterator pTerm = ResonantTerms.begin(); pTerm != ResonantTerms.end(); ++pTerm)
         Value += (*pTerm)(z1,z2,z3,KroneckerSymbolTolerance);
 
     return Value;
 }
 
-const std::vector<TwoParticleGFPart::NonResonantTerm>& TwoParticleGFPart::getNonResonantTerms() const
+const std::deque<TwoParticleGFPart::NonResonantTerm>& TwoParticleGFPart::getNonResonantTerms() const
 {
     return NonResonantTerms;
 }
 
-const std::vector<TwoParticleGFPart::ResonantTerm>& TwoParticleGFPart::getResonantTerms() const
+const std::deque<TwoParticleGFPart::ResonantTerm>& TwoParticleGFPart::getResonantTerms() const
 {
     return ResonantTerms;
 }

@@ -113,11 +113,11 @@ void GreensFunctionPart::compute(void)
     reduceTerms(ReduceTolerance/Terms.size(),Terms);
 }
 
-void GreensFunctionPart::reduceTerms(const RealType Tolerance, std::list<Term> &Terms)
+void GreensFunctionPart::reduceTerms(const RealType Tolerance, std::deque<Term> &Terms)
 {
     // Sieve reduction of the terms
-    for(std::list<Term>::iterator it1 = Terms.begin(); it1 != Terms.end();){
-        std::list<Term>::iterator it2 = it1;
+    for(std::deque<Term>::iterator it1 = Terms.begin(); it1 != Terms.end();){
+        std::deque<Term>::iterator it2 = it1;
         for(it2++; it2 != Terms.end();){
             if(it1->isSimilarTo(*it2, ReduceResonanceTolerance)){
                 *it1 += *it2;

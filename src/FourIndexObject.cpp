@@ -96,32 +96,32 @@ void FourIndexObject::MatsubaraContainer::clear()
     }
 }
 
-void FourIndexObject::MatsubaraContainer::fill(const std::list<TwoParticleGFPart::NonResonantTerm>& NonResonantTerms, const std::list<TwoParticleGFPart::ResonantTerm>& ResonantTerms, Permutation3 Permutation)
+void FourIndexObject::MatsubaraContainer::fill(const std::deque<TwoParticleGFPart::NonResonantTerm>& NonResonantTerms, const std::deque<TwoParticleGFPart::ResonantTerm>& ResonantTerms, Permutation3 Permutation)
 {
     for (long BosonicIndex=0;BosonicIndex<=(4*NumberOfMatsubaras)-2;BosonicIndex++){
         for (long nuIndex=0;nuIndex<Data[BosonicIndex].cols();++nuIndex){
             for (long nu1Index=0;nu1Index<Data[BosonicIndex].cols();++nu1Index){
-                
+
                 long FermionicIndexShift = FermionicFirstIndex[BosonicIndex];
                 long MatsubaraNumber2 = nuIndex +FermionicIndexShift;
                 long MatsubaraNumber1 = BosonicIndex-2*NumberOfMatsubaras-MatsubaraNumber2;
                 long MatsubaraNumber3 = nu1Index+FermionicIndexShift;
-                
+
                 long MatsubaraNumberOdd1 = 2*MatsubaraNumber1 + 1;
                 long MatsubaraNumberOdd2 = 2*MatsubaraNumber2 + 1;
                 long MatsubaraNumberOdd3 = 2*MatsubaraNumber3 + 1;
                 ComplexType Frequencies[3] = {  MatsubaraSpacing * RealType(MatsubaraNumberOdd1),
                                                 MatsubaraSpacing * RealType(MatsubaraNumberOdd2),
                                                -MatsubaraSpacing * RealType(MatsubaraNumberOdd3)};
-                                    
+
                 ComplexType z1 = Frequencies[Permutation.perm[0]];                                    
                 ComplexType z2 = Frequencies[Permutation.perm[1]];
                 ComplexType z3 = Frequencies[Permutation.perm[2]];
-    
+
                 ComplexType Value = 0;
-                for(std::list<TwoParticleGFPart::NonResonantTerm>::const_iterator pTerm = NonResonantTerms.begin(); pTerm != NonResonantTerms.end(); ++pTerm)
+                for(std::deque<TwoParticleGFPart::NonResonantTerm>::const_iterator pTerm = NonResonantTerms.begin(); pTerm != NonResonantTerms.end(); ++pTerm)
                     Value += (*pTerm)(z1,z2,z3);
-                for(std::list<TwoParticleGFPart::ResonantTerm>::const_iterator pTerm = ResonantTerms.begin(); pTerm != ResonantTerms.end(); ++pTerm)
+                for(std::deque<TwoParticleGFPart::ResonantTerm>::const_iterator pTerm = ResonantTerms.begin(); pTerm != ResonantTerms.end(); ++pTerm)
                     Value += (*pTerm)(z1,z2,z3);
 
                 Data[BosonicIndex](nuIndex,nu1Index) += Value;

@@ -29,7 +29,7 @@
 #pragma clang diagnostic ignored "-Wgnu"
 
 #include <boost/serialization/complex.hpp>
-#include <boost/serialization/vector.hpp>
+#include <boost/serialization/deque.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/lexical_cast.hpp>
@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
             Chi4.ReduceInvocationThreshold = 1e5;
             /** Minimal magnitude of the coefficient of a term to take it into account with respect to amount of terms. */
             Chi4.MultiTermCoefficientTolerance = 1e-6;
-            
+
             Chi4.prepareAll(indices4); // find all non-vanishing block connections inside 2pgf
             comm.barrier(); // MPI::BARRIER
 
@@ -280,7 +280,7 @@ int main(int argc, char* argv[])
                 std::ofstream term_nonres_stream(("terms_nonres"+ind_str+".pom").c_str());
                 boost::archive::text_oarchive oa_res(term_res_stream);
                 boost::archive::text_oarchive oa_nonres(term_nonres_stream);
-                for(std::vector<TwoParticleGFPart*>::const_iterator iter = chi.parts.begin(); iter != chi.parts.end(); iter++) {
+                for(std::deque<TwoParticleGFPart*>::const_iterator iter = chi.parts.begin(); iter != chi.parts.end(); iter++) {
                     oa_nonres << ((*iter)->getNonResonantTerms());
                     oa_res << ((*iter)->getResonantTerms());
                     };
@@ -305,8 +305,7 @@ int main(int argc, char* argv[])
                         disp.reset(new pMPI::MPIMaster(comm,ntasks,true));
                     };
                     comm.barrier();
-                    
-                
+
                     for (pMPI::MPIWorker worker(comm,ROOT);!worker.is_finished();) {
                         if (rank == ROOT) disp->order(); 
                         worker.receive_order(); 

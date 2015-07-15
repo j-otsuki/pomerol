@@ -21,7 +21,7 @@
 
 #include "TwoParticleGFContainer.h"
 #include <boost/serialization/complex.hpp>
-#include <boost/serialization/vector.hpp>
+#include <boost/serialization/deque.hpp>
 
 namespace Pomerol{
 

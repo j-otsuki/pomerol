@@ -27,7 +27,7 @@
 */
 #include "TwoParticleGF.h"
 #include <boost/serialization/complex.hpp>
-#include <boost/serialization/vector.hpp>
+#include <boost/serialization/deque.hpp>
 
 #include "mpi_dispatcher/mpi_skel.hpp"
 
@@ -49,7 +49,7 @@ TwoParticleGF::TwoParticleGF(const StatesClassification& S, const Hamiltonian& H
 
 TwoParticleGF::~TwoParticleGF()
 {
-      for(std::vector<TwoParticleGFPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
+      for(std::deque<TwoParticleGFPart*>::iterator iter = parts.begin(); iter != parts.end(); iter++)
           delete *iter;
 }
 
