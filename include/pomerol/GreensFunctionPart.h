@@ -80,8 +80,8 @@ class GreensFunctionPart : public Thermal
         struct IsNegligible {
             double Tolerance;
             IsNegligible(double Tolerance) : Tolerance(Tolerance) {}
-            bool operator()(Term const& t, size_t ToleranceDivisor) const {
-                return std::abs(t.Residue) < Tolerance / ToleranceDivisor;
+            bool operator()(Term const& t, size_t NTerms) const {
+                return std::abs(t.Residue) < Tolerance / NTerms;
             }
             friend class boost::serialization::access;
             template<class Archive> void serialize(Archive & ar, const unsigned int version) {

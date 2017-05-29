@@ -92,8 +92,8 @@ public:
         struct IsNegligible {
             double Tolerance;
             IsNegligible(double Tolerance) : Tolerance(Tolerance) {}
-            bool operator()(NonResonantTerm const& t, size_t ToleranceDivisor) const {
-                return std::abs(t.Coeff) < Tolerance / ToleranceDivisor;
+            bool operator()(NonResonantTerm const& t, size_t NTerms) const {
+                return std::abs(t.Coeff) < Tolerance / NTerms;
             }
             friend class boost::serialization::access;
             template<class Archive> void serialize(Archive & ar, const unsigned int version) {
@@ -180,9 +180,9 @@ public:
         struct IsNegligible {
             double Tolerance;
             IsNegligible(double Tolerance) : Tolerance(Tolerance) {}
-            bool operator()(ResonantTerm const& t, size_t ToleranceDivisor) const {
-                return std::abs(t.ResCoeff) < Tolerance / ToleranceDivisor &&
-                       std::abs(t.NonResCoeff) < Tolerance / ToleranceDivisor;
+            bool operator()(ResonantTerm const& t, size_t NTerms) const {
+                return std::abs(t.ResCoeff) < Tolerance / NTerms &&
+                       std::abs(t.NonResCoeff) < Tolerance / NTerms;
             }
             friend class boost::serialization::access;
             template<class Archive> void serialize(Archive & ar, const unsigned int version) {
